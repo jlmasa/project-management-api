@@ -1,4 +1,4 @@
-package com.jlmasa.pms_backend.calendar.entity;
+package com.jlmasa.pms_backend.calendar.domain;
 
 
 import com.jlmasa.project_management.api.identity.entity.Organization_memberships;

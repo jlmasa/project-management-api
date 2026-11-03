@@ -1,4 +1,4 @@
-package com.jlmasa.pms_backend.calendar.entity;
+package com.jlmasa.pms_backend.calendar.domain;
 
 import com.jlmasa.project_management.api.identity.entity.Departments;
 import com.jlmasa.project_management.api.identity.entity.Organization_memberships;
@@ -6,37 +6,35 @@ import com.jlmasa.project_management.api.task.entity.Tasks;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 
+import java.math.BigInteger;
 import java.time.Instant;
 import java.util.UUID;
 
 @Entity
-@Table(name = "task_assignments")
-public class Task_assignments {
+@Table(name = "work_sessions")
+public class Work_sessions {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY) @Column(name = "id") private UUID id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY) @Column(name = "id") private UUID id;
 
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "task_id", nullable = false)
+    @JoinColumn(name = "task_assignment_id", nullable = false)
     private Tasks tasks;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "assigned_to_membership_id", nullable = false)
+    @JoinColumn(name = "started_by_membership_id", nullable = false)
     private Organization_memberships assignToMembership;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "assigned_by_membership_id", nullable = false)
+    @JoinColumn(name = "ended_by_membership_id", nullable = false)
     private Organization_memberships assignByMembership;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "department_id_at_assignment")
-    private Departments departments;
-
-    @Column(name = "assignment_status", nullable = false) private String assignment_status;
-    @Column(name = "assigned_at", nullable = false) private Instant assigned_at;
-    @Column(name = "first_started_at") private Instant first_started_at;
-    @Column(name = "completed_at") private Instant completed_at;
+    @Column(name = "started_at", nullable = false) private Instant started_at;
     @Column(name = "ended_at") private Instant ended_at;
+
+    @Column(name = "duration_seconds") private BigInteger duration_seconds;
+    @Column(name = "session_status", nullable = false) private String session_status;
     @Column(name = "end_reason") private String end_reason;
 
     @CreationTimestamp
@@ -75,44 +73,12 @@ public class Task_assignments {
         this.assignByMembership = assignByMembership;
     }
 
-    public Departments getDepartments() {
-        return departments;
+    public Instant getStarted_at() {
+        return started_at;
     }
 
-    public void setDepartments(Departments departments) {
-        this.departments = departments;
-    }
-
-    public String getAssignment_status() {
-        return assignment_status;
-    }
-
-    public void setAssignment_status(String assignment_status) {
-        this.assignment_status = assignment_status;
-    }
-
-    public Instant getAssigned_at() {
-        return assigned_at;
-    }
-
-    public void setAssigned_at(Instant assigned_at) {
-        this.assigned_at = assigned_at;
-    }
-
-    public Instant getFirst_started_at() {
-        return first_started_at;
-    }
-
-    public void setFirst_started_at(Instant first_started_at) {
-        this.first_started_at = first_started_at;
-    }
-
-    public Instant getCompleted_at() {
-        return completed_at;
-    }
-
-    public void setCompleted_at(Instant completed_at) {
-        this.completed_at = completed_at;
+    public void setStarted_at(Instant started_at) {
+        this.started_at = started_at;
     }
 
     public Instant getEnded_at() {
@@ -121,6 +87,22 @@ public class Task_assignments {
 
     public void setEnded_at(Instant ended_at) {
         this.ended_at = ended_at;
+    }
+
+    public BigInteger getDuration_seconds() {
+        return duration_seconds;
+    }
+
+    public void setDuration_seconds(BigInteger duration_seconds) {
+        this.duration_seconds = duration_seconds;
+    }
+
+    public String getSession_status() {
+        return session_status;
+    }
+
+    public void setSession_status(String session_status) {
+        this.session_status = session_status;
     }
 
     public String getEnd_reason() {
