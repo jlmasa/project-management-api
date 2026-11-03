@@ -1,11 +1,9 @@
-package com.jlmasa.pms_backend.files.entity;
+package com.jlmasa.pms_backend.files.domain;
 
 
 import jakarta.persistence.*;
-import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UuidGenerator;
 
-import java.math.BigInteger;
 import java.time.Instant;
 import java.util.Objects;
 import java.util.UUID;

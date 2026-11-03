@@ -1,4 +1,4 @@
-package com.jlmasa.pms_backend.files.entity;
+package com.jlmasa.pms_backend.files.domain;
 
 import com.jlmasa.project_management.api.identity.entity.Organization;
 import com.jlmasa.project_management.api.identity.entity.Organization_memberships;

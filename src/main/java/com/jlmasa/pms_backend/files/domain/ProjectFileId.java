@@ -1,4 +1,4 @@
-package com.jlmasa.pms_backend.files.entity;
+package com.jlmasa.pms_backend.files.domain;
 
 import jakarta.persistence.Embeddable;
 
