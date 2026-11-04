@@ -16,7 +16,7 @@ public class MembershipRole {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @MapsId("organizationMembershipId")
     @JoinColumn(name = "organization_membership_id", nullable = false)
-    private Organization membership;
+    private OrganizationMembership membership;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @MapsId("roleId")
@@ -39,7 +39,7 @@ public class MembershipRole {
     }
 
     public MembershipRoleId getId() {return id;}
-    public OrganizationMembership getMembership() {return membership;}
+    public OrganizationMembership getMembership() { return membership; }
     public Role getRole() {return role;}
     public java.util.UUID getAssignedByMembershipId() {return assignedByMembershipId;}
     public Instant getAssignedAt() {return assignedAt;}
