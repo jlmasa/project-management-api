@@ -1,4 +1,4 @@
-CREATE TABLE conversations (
+CREATE TABLE conversation (
     id                          UUID NOT NULL,
     organization_id             UUID NOT NULL,
     project_id                  UUID,
@@ -15,8 +15,8 @@ CREATE TABLE conversations (
     CONSTRAINT pk_conversations PRIMARY KEY (id),
     CONSTRAINT fk_conversations_organization FOREIGN KEY (organization_id) REFERENCES organizations (id),
     CONSTRAINT fk_conversations_projects FOREIGN KEY (project_id) REFERENCES projects (id),
-    CONSTRAINT fk_conversations_task FOREIGN KEY (task_id) REFERENCES task (id),
-    CONSTRAINT fk_conversations_created_by FOREIGN KEY (created_by_membership_id) REFERENCES organization_membership (id),
+    CONSTRAINT fk_conversations_task FOREIGN KEY (task_id) REFERENCES tasks (id),
+    CONSTRAINT fk_conversations_created_by FOREIGN KEY (created_by_membership_id) REFERENCES organization_memberships (id),
     CONSTRAINT uq_conversations_task_cycle UNIQUE (task_id, task_cycle),
     CONSTRAINT ck_conversations_type CHECK (conversation_type IN ('DIRECT', 'GROUP', 'PROJECT_CHANNEL', 'TASK')),
     CONSTRAINT ck_conversations_status CHECK (conversation_status IN ('ACTIVE', 'CLOSED','ARCHIVED')),
@@ -27,9 +27,9 @@ CONSTRAINT ck_conversations_task_fields CHECK (
     )
 );
 
-CREATE INDEX ix_conversations_organization_id ON conversations (organization_id);
-CREATE INDEX ix_conversations_project_id ON conversations(project_id);
-CREATE INDEX ix_conversations_created_by ON conversations(created_by_membership_id);
+CREATE INDEX ix_conversations_organization_id ON conversation (organization_id);
+CREATE INDEX ix_conversations_project_id ON conversation(project_id);
+CREATE INDEX ix_conversations_created_by ON conversation(created_by_membership_id);
 
 CREATE TABLE conversation_participants (
     conversation_id             UUID NOT NULL,
@@ -41,18 +41,18 @@ CREATE TABLE conversation_participants (
     notifications_muted         BOOLEAN NOT NULL DEFAULT FALSE,
 
     CONSTRAINT pk_conversation_participants PRIMARY KEY (conversation_id, organization_membership_id),
-    CONSTRAINT fk_participants_conversation FOREIGN KEY (conversation_id) REFERENCES conversations (id),
-    CONSTRAINT fk_participants_membership FOREIGN KEY (organization_membership_id) REFERENCES organization_membership (id),
+    CONSTRAINT fk_participants_conversation FOREIGN KEY (conversation_id) REFERENCES conversation (id),
+    CONSTRAINT fk_participants_membership FOREIGN KEY (organization_membership_id) REFERENCES organization_memberships (id),
     CONSTRAINT ck_participants_role CHECK (participant_role  IN ('MEMBER','MODERATOR'))
 );
 
 CREATE INDEX ix_participants_membership_id ON conversation_participants (organization_membership_id);
 
-CREATE TABLE message (
+CREATE TABLE messages (
     id                          UUID NOT NULL,
     conversation_id             UUID NOT NULL,
     sender_membership_id        UUID NOT NULL,
-    parents_message_id          UUID,
+    parent_message_id          UUID,
     message_type                VARCHAR(10) NOT NULL DEFAULT 'TEXT',
     body                        TEXT,
     created_at                  TIMESTAMPTZ NOT NULL,
@@ -60,17 +60,17 @@ CREATE TABLE message (
     deleted_at                  TIMESTAMPTZ,
 
     CONSTRAINT pk_messages PRIMARY KEY (id),
-    CONSTRAINT fk_messages_conversation FOREIGN KEY (conversation_id) REFERENCES conversations (id),
-    CONSTRAINT fk_messages_sender FOREIGN KEY (sender_membership_id) REFERENCES organization_membership (id),
-    CONSTRAINT fk_messages_parent FOREIGN KEY (parents_message_id) REFERENCES message (id),
+    CONSTRAINT fk_messages_conversation FOREIGN KEY (conversation_id) REFERENCES conversation (id),
+    CONSTRAINT fk_messages_sender FOREIGN KEY (sender_membership_id) REFERENCES organization_memberships (id),
+    CONSTRAINT fk_messages_parent FOREIGN KEY (parent_message_id) REFERENCES messages (id),
     CONSTRAINT ck_messages_type CHECK (
         message_type IN ('TEXT','SYSTEM','FILE','AUDIO','VIDEO')
         )
 );
 
-CREATE INDEX ix_messages_conversation_id ON message (conversation_id);
-CREATE INDEX ix_messages_sender_id ON message (sender_membership_id);
-CREATE INDEX ix_messages_parent_id ON message (parents_message_id);
+CREATE INDEX ix_messages_conversation_id ON messages (conversation_id);
+CREATE INDEX ix_messages_sender_id ON messages (sender_membership_id);
+CREATE INDEX ix_messages_parent_id ON messages (parent_message_id);
 
 CREATE TABLE message_reactions (
     message_id                  UUID NOT NULL,
@@ -79,8 +79,8 @@ CREATE TABLE message_reactions (
     created_at                  TIMESTAMPTZ NOT NULL,
 
     CONSTRAINT pk_message_reactions PRIMARY KEY (message_id, reacted_by_membership_id, emoji),
-    CONSTRAINT fk_reactions_message FOREIGN KEY (message_id) REFERENCES message (id),
-    CONSTRAINT fk_reactions_reacted_by FOREIGN KEY (reacted_by_membership_id) REFERENCES organization_membership (id)
+    CONSTRAINT fk_reactions_message FOREIGN KEY (message_id) REFERENCES messages (id),
+    CONSTRAINT fk_reactions_reacted_by FOREIGN KEY (reacted_by_membership_id) REFERENCES organization_memberships (id)
 );
 
 CREATE INDEX ix_reactions_reacted_by ON message_reactions (reacted_by_membership_id);
@@ -91,8 +91,8 @@ CREATE TABLE message_mentions (
     created_at                  TIMESTAMPTZ NOT NULL,
 
     CONSTRAINT pk_message_mentions PRIMARY KEY (message_id, mentioned_membership_id),
-    CONSTRAINT fk_mentioned_message FOREIGN KEY (message_id) REFERENCES message (id),
-    CONSTRAINT fk_mentions_mentioned FOREIGN KEY (mentioned_membership_id) REFERENCES organization_membership (id)
+    CONSTRAINT fk_mentioned_message FOREIGN KEY (message_id) REFERENCES messages (id),
+    CONSTRAINT fk_mentions_mentioned FOREIGN KEY (mentioned_membership_id) REFERENCES organization_memberships (id)
 );
 
 CREATE INDEX ix_mentions_mentioned ON message_mentions (mentioned_membership_id);

@@ -1,4 +1,4 @@
-CREATE TABLE department(
+CREATE TABLE departments(
     id                  UUID NOT NULL,
     organization_id     UUID NOT NULL,
     name                VARCHAR(255) NOT NULL,
@@ -6,13 +6,13 @@ CREATE TABLE department(
     created_at          TIMESTAMPTZ NOT NULL,
 
     CONSTRAINT pk_departments PRIMARY KEY (id),
-    CONSTRAINT fk_departments_organization FOREIGN KEY (organization_id) REFERENCES organization (id),
+    CONSTRAINT fk_departments_organization FOREIGN KEY (organization_id) REFERENCES organizations (id),
     CONSTRAINT uq_departments_org_code UNIQUE (organization_id, code)
 );
 
-CREATE INDEX ix_departments_organization_id ON department (organization_id);
+CREATE INDEX ix_departments_organization_id ON departments (organization_id);
 
-CREATE TABLE organization_membership (
+CREATE TABLE organization_memberships (
     id                  UUID NOT NULL ,
     organization_id     UUID NOT NULL ,
     user_id             UUID NOT NULL,
@@ -23,13 +23,13 @@ CREATE TABLE organization_membership (
     left_at             TIMESTAMPTZ,
 
     CONSTRAINT pk_organization_membership PRIMARY KEY (id),
-    CONSTRAINT fk_membership_organization FOREIGN KEY (organization_id) REFERENCES organization (id),
-    CONSTRAINT fk_membership_user FOREIGN KEY (user_id) REFERENCES userAccount (id),
-    CONSTRAINT fk_membership_department FOREIGN KEY (department_id) REFERENCES department (id),
+    CONSTRAINT fk_membership_organization FOREIGN KEY (organization_id) REFERENCES organizations (id),
+    CONSTRAINT fk_membership_user FOREIGN KEY (user_id) REFERENCES users (id),
+    CONSTRAINT fk_membership_department FOREIGN KEY (department_id) REFERENCES departments (id),
     CONSTRAINT uq_membership_org_user UNIQUE (organization_id,user_id),
     CONSTRAINT ck_membership_status CHECK (membership_status IN ('ACTIVE', 'INVITED', 'SUSPENDED', 'LEFT'))
 );
 
-CREATE INDEX ix_membership_organization_id ON organization_membership (organization_id);
-CREATE INDEX ix_membership_user_id ON organization_membership (user_id);
-CREATE INDEX ix_membership_department_id ON organization_membership (department_id);
+CREATE INDEX ix_membership_organization_id ON organization_memberships (organization_id);
+CREATE INDEX ix_membership_user_id ON organization_memberships (user_id);
+CREATE INDEX ix_membership_department_id ON organization_memberships (department_id);

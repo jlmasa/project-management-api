@@ -15,7 +15,7 @@ CREATE TABLE projects (
 
     CONSTRAINT pk_projects PRIMARY KEY (id),
     CONSTRAINT fk_projects_organization FOREIGN KEY (organization_id) REFERENCES organizations (id),
-    CONSTRAINT fk_projects_created_by FOREIGN KEY (created_by_membership_id) REFERENCES organization_membership (id),
+    CONSTRAINT fk_projects_created_by FOREIGN KEY (created_by_membership_id) REFERENCES organization_memberships (id),
     CONSTRAINT uq_projects_org_code UNIQUE (organization_id, code),
     CONSTRAINT ck_projects_status CHECK (project_status IN ('PLANNING', 'ACTIVE', 'ON_HOLD', 'COMPLETED', 'ARCHIVED'))
 );
@@ -33,14 +33,14 @@ CREATE TABLE project_members (
 
     CONSTRAINT pk_project_members PRIMARY KEY (project_id, organization_membership_id),
     CONSTRAINT fk_project_members_project FOREIGN KEY (project_id) REFERENCES projects (id),
-    CONSTRAINT fk_project_members_membership FOREIGN KEY (organization_membership_id) REFERENCES organization_membership (id),
-    CONSTRAINT fk_project_members_added_by FOREIGN KEY (added_by_membership_id) REFERENCES organization_membership (id),
+    CONSTRAINT fk_project_members_membership FOREIGN KEY (organization_membership_id) REFERENCES organization_memberships (id),
+    CONSTRAINT fk_project_members_added_by FOREIGN KEY (added_by_membership_id) REFERENCES organization_memberships (id),
     CONSTRAINT ck_project_members_role CHECK (project_role IN ('OWNER', 'MANAGER', 'MEMBER', 'VIEWER'))
 );
 
 CREATE INDEX ix_project_members_memberships_id ON project_members (organization_membership_id);
 
-CREATE TABLE milestone (
+CREATE TABLE milestones (
     id                                  UUID NOT NULL,
     project_id                          UUID NOT NULL ,
     name                                VARCHAR(255) NOT NULL,
@@ -53,12 +53,12 @@ CREATE TABLE milestone (
 
     CONSTRAINT pk_milestones PRIMARY KEY (id),
     CONSTRAINT fk_milestones_project FOREIGN KEY (project_id) REFERENCES projects (id),
-    CONSTRAINT fk_milestones_created_by FOREIGN KEY (created_by_membership_id) REFERENCES organization_membership (id),
+    CONSTRAINT fk_milestones_created_by FOREIGN KEY (created_by_membership_id) REFERENCES organization_memberships (id),
     CONSTRAINT ck_milestones_status CHECK (milestone_status IN ('OPEN', 'IN_PROGRESS', 'COMPLETED', 'CANCELLED'))
 );
 
-CREATE INDEX ix_milestones_project_id ON milestone (project_id);
-CREATE INDEX ix_milestones_created_by ON milestone (created_by_membership_id);
+CREATE INDEX ix_milestones_project_id ON milestones (project_id);
+CREATE INDEX ix_milestones_created_by ON milestones (created_by_membership_id);
 
 CREATE TABLE recurring_task_rules (
     id                                  UUID NOT NULL,
@@ -77,8 +77,8 @@ CREATE TABLE recurring_task_rules (
 
     CONSTRAINT pk_recurring_task_rule PRIMARY KEY (id),
     CONSTRAINT fk_recurring_rules_project FOREIGN KEY (project_id) REFERENCES projects(id),
-    CONSTRAINT fk_recurring_rules_created_by FOREIGN KEY (created_by_membership_id) REFERENCES organization_membership (id),
-    CONSTRAINT fk_recurring_rules_assignee FOREIGN KEY (default_assignee_membership_id) REFERENCES organization_membership (id)
+    CONSTRAINT fk_recurring_rules_created_by FOREIGN KEY (created_by_membership_id) REFERENCES organization_memberships (id),
+    CONSTRAINT fk_recurring_rules_assignee FOREIGN KEY (default_assignee_membership_id) REFERENCES organization_memberships (id)
 );
 
 CREATE INDEX ix_recurring_rules_project_id ON recurring_task_rules (project_id);

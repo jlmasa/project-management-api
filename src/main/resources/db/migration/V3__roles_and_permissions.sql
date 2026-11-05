@@ -1,4 +1,4 @@
-CREATE TABLE role (
+CREATE TABLE roles (
     id                              UUID NOT NULL ,
     organization_id                 UUID NOT NULL ,
     name                            VARCHAR(255) NOT NULL,
@@ -7,10 +7,10 @@ CREATE TABLE role (
     created_at                      TIMESTAMPTZ NOT NULL,
 
     CONSTRAINT pk_role PRIMARY KEY (id),
-    CONSTRAINT fk_roles_organization FOREIGN KEY (organization_id) REFERENCES organization (id),
+    CONSTRAINT fk_roles_organization FOREIGN KEY (organization_id) REFERENCES organizations (id),
     CONSTRAINT uq_roles_org_name UNIQUE (organization_id, name)
 );
-CREATE INDEX ix_roles_organization_id ON role (organization_id);
+CREATE INDEX ix_roles_organization_id ON roles (organization_id);
 
 CREATE TABLE permissions (
     id                              UUID NOT NULL,
@@ -28,20 +28,20 @@ CREATE TABLE membership_roles (
     assigned_at                     TIMESTAMPTZ NOT NULL,
 
     CONSTRAINT pk_membership_roles PRIMARY KEY (organization_membership_id, role_id),
-    CONSTRAINT fk_membership_roles_membership FOREIGN KEY (organization_membership_id) REFERENCES organization_membership (id),
-    CONSTRAINT fk_membership_roles_assigned_by FOREIGN KEY (assigned_by_membership_id) REFERENCES organization_membership (id)
+    CONSTRAINT fk_membership_roles_membership FOREIGN KEY (organization_membership_id) REFERENCES organization_memberships (id),
+    CONSTRAINT fk_membership_roles_assigned_by FOREIGN KEY (assigned_by_membership_id) REFERENCES organization_memberships (id)
 );
 
 CREATE INDEX ix_membership_roles_role_id ON membership_roles (role_id);
 CREATE INDEX ix_membership_roles_assigned_by ON membership_roles(assigned_by_membership_id);
 
-CREATE TABLE role_permissions (
+CREATE TABLE role_permission (
     role_id                         UUID NOT NULL,
     permission_id                   UUID NOT NULL,
 
     CONSTRAINT pk_role_permissions PRIMARY KEY (role_id, permission_id),
-    constraint fk_role_permissions_role FOREIGN KEY (role_id) REFERENCES role (id),
+    constraint fk_role_permissions_role FOREIGN KEY (role_id) REFERENCES roles (id),
     CONSTRAINT fk_role_permissions_permission FOREIGN KEY (permission_id) REFERENCES permissions (id)
 );
 
-CREATE INDEX ix_role_permissions_permission_id ON role_permissions (permission_id);
+CREATE INDEX ix_role_permissions_permission_id ON role_permission (permission_id);

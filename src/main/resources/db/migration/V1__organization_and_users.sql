@@ -9,7 +9,7 @@ CREATE TABLE organizations (
     CONSTRAINT uq_organizations_slug UNIQUE (slug)
 );
 
-CREATE TABLE userAccount (
+CREATE TABLE users (
     id                  UUID NOT NULL ,
     email               VARCHAR(255) NOT NULL ,
     password_hash       VARCHAR(255) NOT NULL ,

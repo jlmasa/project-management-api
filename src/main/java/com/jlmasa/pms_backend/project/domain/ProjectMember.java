@@ -18,8 +18,8 @@ public class ProjectMember {
     @JoinColumn(name = "project_id", nullable = false, updatable = false)
     private Project project;
 
-    @Column(name = "organization_membership_id", insertable = false, updatable = false)
-    private UUID organizationMembershipId;
+//    @Column(name = "organization_membership_id", insertable = false, updatable = false)
+//    private UUID organizationMembershipId;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "project_role", nullable = false, length = 20)
@@ -37,7 +37,7 @@ public class ProjectMember {
 
     public ProjectMember(Project project, UUID organizationMembershipId, ProjectRole projectRole, UUID addedByMembershipId, Instant now){
         this.project = Objects.requireNonNull(project, "project");
-        this.organizationMembershipId = Objects.requireNonNull(organizationMembershipId, "organizationMembershipId");
+//        this.organizationMembershipId = Objects.requireNonNull(organizationMembershipId, "organizationMembershipId");
         this.id = new ProjectMemberId(project.getId(), organizationMembershipId);
         this.projectRole = Objects.requireNonNull(projectRole, "projectRoles");
         this.addedByMembershipId = addedByMembershipId;
@@ -50,7 +50,7 @@ public class ProjectMember {
 
     public ProjectMemberId getId() {return id;}
     public Project getProject() {return project;}
-    public UUID getOrganizationMembershipId() {return organizationMembershipId;}
+    public UUID getOrganizationMembershipId() {return id.getOrganizationMembershipId();}
     public ProjectRole getProjectRole() {return projectRole;}
     public UUID getAddedByMembershipId() {return addedByMembershipId;}
     public Instant getAddedAt() {return addedAt;}

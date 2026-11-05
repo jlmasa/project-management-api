@@ -10,17 +10,18 @@ import java.util.Objects;
 @Entity
 @Table(name = "membership_roles")
 public class MembershipRole {
+
     @EmbeddedId
     private MembershipRoleId id;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @MapsId("organizationMembershipId")
-    @JoinColumn(name = "organization_membership_id", nullable = false)
+    @JoinColumn(name = "organization_membership_id", nullable = false,
+            insertable = false, updatable = false)
     private OrganizationMembership membership;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @MapsId("roleId")
-    @JoinColumn(name = "role_id", nullable = false)
+    @JoinColumn(name = "role_id", nullable = false,
+            insertable = false, updatable = false)
     private Role role;
 
     @Column(name = "assigned_by_membership_id")

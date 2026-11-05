@@ -14,8 +14,8 @@ public class MessageAttachment {
     @EmbeddedId
     private MessageAttachmentId id;
 
-    @Column(name = "message_id", insertable = false, updatable = false)
-    private UUID messageId;
+//    @Column(name = "message_id", insertable = false, updatable = false)
+//    private UUID messageId;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @MapsId("fileVersionId")
@@ -31,7 +31,7 @@ public class MessageAttachment {
     protected MessageAttachment() {}
 
     public MessageAttachment(UUID messageId, FileVersion fileVersion, UUID attachedByMembershipId, Instant now){
-        this.messageId = Objects.requireNonNull(messageId, "messageId");
+//        this.messageId = Objects.requireNonNull(messageId, "messageId");
         this.fileVersion = Objects.requireNonNull(fileVersion, "fileVersion");
         this.id = new MessageAttachmentId(messageId, fileVersion.getId());
         this.attachedByMembershipId = Objects.requireNonNull(attachedByMembershipId, "attachedByMembershipId");
@@ -39,7 +39,7 @@ public class MessageAttachment {
     }
 
     public MessageAttachmentId getId() {return id;}
-    public UUID getMessageId() {return messageId;}
+    public UUID getMessageId() {return id.getMessageId();}
     public FileVersion  getFileVersion() {return fileVersion;}
     public UUID getAttachedByMembershipId() {return attachedByMembershipId;}
     public Instant getAttachedAt() {return attachedAt;}

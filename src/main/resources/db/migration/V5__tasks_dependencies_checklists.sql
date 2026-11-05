@@ -1,4 +1,4 @@
-CREATE TABLE task (
+CREATE TABLE tasks (
     id                          UUID NOT NULL,
     project_id                  UUID NOT NULL,
     milestone_id                UUID,
@@ -20,19 +20,19 @@ CREATE TABLE task (
 
     CONSTRAINT pk_tasks primary key (id),
     CONSTRAINT fk_tasks_project FOREIGN KEY (project_id) REFERENCES projects (id),
-    CONSTRAINT fk_tasks_milestone FOREIGN KEY (milestone_id) REFERENCES milestone (id),
-    CONSTRAINT fk_tasks_parent FOREIGN KEY (parent_task_id) REFERENCES task (id),
+    CONSTRAINT fk_tasks_milestone FOREIGN KEY (milestone_id) REFERENCES milestones (id),
+    CONSTRAINT fk_tasks_parent FOREIGN KEY (parent_task_id) REFERENCES tasks (id),
     CONSTRAINT fk_tasks_recurring_rule FOREIGN KEY (recurring_rule_id) REFERENCES recurring_task_rules (id),
-    CONSTRAINT fk_task_created_by FOREIGN KEY (created_by_membership_id) REFERENCES organization_membership (id),
+    CONSTRAINT fk_task_created_by FOREIGN KEY (created_by_membership_id) REFERENCES organization_memberships (id),
     CONSTRAINT ck_tasks_status CHECK (task_status IN ('BACKLOG', 'TO_DO', 'IN_PROGRESS', 'IN_REVIEW', 'BLOCKED', 'COMPLETED', 'CANCELLED')),
     CONSTRAINT ck_tasks_priority CHECK (priority IN ('LOW', 'MEDIUM', 'HIGH', 'CRITICAL'))
 );
-CREATE INDEX ix_tasks_project_id ON task (project_id);
-CREATE INDEX ix_tasks_milestone_id ON task (milestone_id);
-CREATE INDEX ix_tasks_parent_task_id ON task (parent_task_id);
-CREATE INDEX ix_tasks_recurring_rule_id ON task (recurring_rule_id);
-CREATE INDEX ix_tasks_created_by ON task (created_by_membership_id);
-CREATE INDEX ix_tasks_status ON task (task_status);
+CREATE INDEX ix_tasks_project_id ON tasks (project_id);
+CREATE INDEX ix_tasks_milestone_id ON tasks (milestone_id);
+CREATE INDEX ix_tasks_parent_task_id ON tasks (parent_task_id);
+CREATE INDEX ix_tasks_recurring_rule_id ON tasks (recurring_rule_id);
+CREATE INDEX ix_tasks_created_by ON tasks (created_by_membership_id);
+CREATE INDEX ix_tasks_status ON tasks (task_status);
 
 CREATE TABLE task_dependencies (
     task_id                     UUID NOT NULL,
@@ -42,15 +42,15 @@ CREATE TABLE task_dependencies (
     created_at                  TIMESTAMPTZ NOT NULL,
 
     CONSTRAINT pk_task_dependencies PRIMARY KEY (task_id, depends_on_task_id),
-    CONSTRAINT fk_task_dependencies_task FOREIGN KEY (task_id) REFERENCES task (id),
-    CONSTRAINT fk_task_dependencies_depends_on FOREIGN KEY (depends_on_task_id) REFERENCES task (id),
-    CONSTRAINT fk_task_dependencies_created_by FOREIGN KEY (created_by_membership_id) REFERENCES organization_membership (id),
+    CONSTRAINT fk_task_dependencies_task FOREIGN KEY (task_id) REFERENCES tasks (id),
+    CONSTRAINT fk_task_dependencies_depends_on FOREIGN KEY (depends_on_task_id) REFERENCES tasks (id),
+    CONSTRAINT fk_task_dependencies_created_by FOREIGN KEY (created_by_membership_id) REFERENCES organization_memberships (id),
     CONSTRAINT ck_task_dependencies_not_self CHECK (task_id <> depends_on_task_id)
 );
 
 CREATE INDEX ix_task_dependencies_depends_on ON task_dependencies (depends_on_task_id);
 
-CREATE TABLE task_checklists (
+CREATE TABLE task_checklist (
     id                          UUID NOT NULL,
     task_id                     UUID NOT NULL,
     title                       VARCHAR(255) NOT NULL,
@@ -58,10 +58,10 @@ CREATE TABLE task_checklists (
     created_at                  TIMESTAMPTZ NOT NULL,
 
     CONSTRAINT pk_task_checklists PRIMARY KEY (id),
-    CONSTRAINT fk_task_checklists_task FOREIGN KEY (task_id) REFERENCES task (id)
+    CONSTRAINT fk_task_checklists_task FOREIGN KEY (task_id) REFERENCES tasks (id)
 );
 
-CREATE INDEX ix_task_checklists_task_id ON task_checklists (task_id);
+CREATE INDEX ix_task_checklists_task_id ON task_checklist (task_id);
 
 CREATE TABLE task_checklist_items (
     id                          UUID NOT NULL,
@@ -73,8 +73,8 @@ CREATE TABLE task_checklist_items (
     position                    INT NOT NULL DEFAULT 0,
 
     CONSTRAINT pk_task_checklist_items PRIMARY KEY (id),
-    CONSTRAINT fk_checklist_items_checklist FOREIGN KEY (checklist_id) REFERENCES task_checklists (id),
-    CONSTRAINT fk_checklist_items_completed_by FOREIGN KEY (completed_by_membership_id) REFERENCES organization_membership (id)
+    CONSTRAINT fk_checklist_items_checklist FOREIGN KEY (checklist_id) REFERENCES task_checklist (id),
+    CONSTRAINT fk_checklist_items_completed_by FOREIGN KEY (completed_by_membership_id) REFERENCES organization_memberships (id)
 );
 
 CREATE INDEX ix_checklist_items_checklist_id ON task_checklist_items (checklist_id);

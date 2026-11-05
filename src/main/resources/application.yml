@@ -16,6 +16,13 @@ spring:
   jackson:
     time-zone: UTC
     default-property-inclusion: non_null
+
+springdoc:
+  swagger-ui:
+    enabled: ${PMS_SWAGGER_ENABLED:true}
+  api-docs:
+    enabled: ${PMS_SWAGGER_ENABLED:true}
+
 app:
   timezone:
     storage: UTC
@@ -24,6 +31,7 @@ app:
     secret: ${JWT_SECRET}
     access-ttl-minutes: ${JWT_ACCESS_TTL_MINUTES:15}
     refresh-ttl-days: ${JWT_REFRESH_TTL_DAYS:30}
+
 management:
   endpoints:
     web:

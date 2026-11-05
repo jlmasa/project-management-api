@@ -15,8 +15,8 @@ public class ProjectFile {
     @EmbeddedId
     private ProjectFileId id;
 
-    @Column(name = "project_id", insertable = false, updatable = false)
-    private UUID projectId;
+//    @Column(name = "project_id", insertable = false, updatable = false)
+//    private UUID projectId;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @MapsId("fileId")
@@ -35,7 +35,7 @@ public class ProjectFile {
     protected ProjectFile(){}
 
     public ProjectFile(UUID projectId, PmsFile file, String folderPath, UUID linkedByMembershipId, Instant now){
-        this.projectId = Objects.requireNonNull(projectId, "projectId");
+//        this.projectId = Objects.requireNonNull(projectId, "projectId");
         this.file = Objects.requireNonNull(file, "file");
         this.id = new ProjectFileId(projectId, file.getId());
         this.folderPath = folderPath;
@@ -44,7 +44,7 @@ public class ProjectFile {
     }
 
     public ProjectFileId getId() {return id;}
-    public UUID getProjectId() {return projectId;}
+    public UUID getProjectId() {return id.getProjectId();}
     public PmsFile getFile(){return file;}
     public String getFolderPath() {return folderPath;}
     public UUID getLinkedByMembershipId() {return linkedByMembershipId;}

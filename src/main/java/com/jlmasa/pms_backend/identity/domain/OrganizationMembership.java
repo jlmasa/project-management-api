@@ -12,22 +12,21 @@ import java.util.UUID;
 @Table(name = "organization_memberships")
 public class OrganizationMembership {
 
-    @Id @UuidGenerator(style = UuidGenerator.Style.TIME)
-    @Column(name = "id") private UUID id;
-
     @Id
+    @UuidGenerator(style = UuidGenerator.Style.TIME)
+    @Column(name = "id")
+    private UUID id;
+
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "organization_id", nullable = false)
     private Organization organization;
 
-    @Id
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_id", nullable = false)
     private UserAccount user;
 
-    @Id
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "department_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "department_id")
     private Department department;
 
     @Column(name = "employee_code")

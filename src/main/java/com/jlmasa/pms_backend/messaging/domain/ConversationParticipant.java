@@ -18,8 +18,8 @@ public class ConversationParticipant {
     @JoinColumn(name = "conversation_id", nullable = false, updatable = false)
     private Conversation conversation;
 
-    @Column(name = "organization_membership_id", insertable = false, updatable = false)
-    private UUID organizationMembershipId;
+//    @Column(name = "organization_membership_id", insertable = false, updatable = false)
+//    private UUID organizationMembershipId;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "participant_role", nullable = false, length = 10)
@@ -34,14 +34,14 @@ public class ConversationParticipant {
     @Column(name = "last_read_at")
     private Instant lastReadAt;
 
-    @Column(name = "notification_muted", nullable = false)
+    @Column(name = "notifications_muted", nullable = false)
     private boolean notificationsMuted;
 
     protected ConversationParticipant() {}
 
     public ConversationParticipant(Conversation conversation, UUID organizationMembershipId, ParticipantRole role, Instant now){
         this.conversation = Objects.requireNonNull(conversation, "conversation" );
-        this.organizationMembershipId = Objects.requireNonNull(organizationMembershipId, "organizationMembershipId");
+//        this.organizationMembershipId = Objects.requireNonNull(organizationMembershipId, "organizationMembershipId");
         this.id = new ConversationParticipantId(conversation.getId(), organizationMembershipId);
         this.participantRole = Objects.requireNonNull(role, "role"  );
         this.joinedAt = now;
@@ -56,7 +56,7 @@ public class ConversationParticipant {
 
     public ConversationParticipantId getId() {return id;}
     public Conversation getConversation() {return conversation;}
-    public UUID getOrganizationMembershipId() {return organizationMembershipId;}
+    public UUID getOrganizationMembershipId() {return id.getOrganizationMembershipId();}
     public ParticipantRole getParticipantRole() {return participantRole;}
     public Instant getJoinedAt() {return joinedAt;}
     public Instant getRemovedAt() {return removedAt;}

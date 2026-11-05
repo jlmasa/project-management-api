@@ -1,4 +1,6 @@
 spring:
+  config:
+    import: "optional:file:.env[.properties]"
   datasource:
     url: ${DB_URL}
     username: ${DB_USERNAME}
@@ -8,4 +10,8 @@ spring:
       minimum: 2
   flyway:
     enabled: true
-    location: classpath:db/migration
+    locations: "classpath:db/migration"
+logging:
+  level:
+    org.hibernate.SQL: DEBUG
+    org.hibernate.orm.jdbc.bind: TRACE
