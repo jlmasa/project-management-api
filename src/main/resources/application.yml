@@ -40,3 +40,9 @@ management:
   endpoint:
     health:
       show-details: when-authorized
+
+pms:
+  bootstrap:
+    org-name: ${PMS_BOOTSTRAP_ORG_NAME:}
+    admin-email: ${PMS_BOOTSTRAP_ADMIN_EMAIL:}
+    admin-password: ${PMS_BOOTSTRAP_ADMIN_PASSWORD:}

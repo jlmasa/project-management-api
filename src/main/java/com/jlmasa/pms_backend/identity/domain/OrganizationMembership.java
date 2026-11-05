@@ -48,36 +48,33 @@ public class OrganizationMembership {
         this.joinedAt = now;
     }
 
-    public void suspend() {this.membershipStatus = MembershipStatus.SUSPENDED;}
-
+    public void suspend() { this.membershipStatus = MembershipStatus.SUSPENDED; }
     public void reactivate() {
-        if(this.membershipStatus == MembershipStatus.LEFT){
+        if (this.membershipStatus == MembershipStatus.LEFT) {
             throw new IllegalStateException("A LEFT membership must be re-invited, not reactivated.");
         }
         this.membershipStatus = MembershipStatus.ACTIVE;
     }
-
-    public void leave(Instant now){
+    public void leave(Instant now) {
         this.membershipStatus = MembershipStatus.LEFT;
         this.leftAt = now;
     }
-
-    public UUID getId(){return id;}
-    public Organization getOrganization() {return organization;}
-    public UserAccount getUser() {return user;}
-    public Department getDepartment() {return department;}
-    public String getEmployeeCode() {return employeeCode;}
-    public MembershipStatus getMembershipStatus() {return membershipStatus;}
-    public Instant getJoinedAt() {return joinedAt;}
-    public Instant getLeftAt() {return leftAt;}
-
+    public void changeDepartment(Department newDepartment) { this.department = newDepartment; }
+    public boolean isActive() { return membershipStatus == MembershipStatus.ACTIVE; }
+    public UUID getId() { return id; }
+    public Organization getOrganization() { return organization; }
+    public UserAccount getUser() { return user; }
+    public Department getDepartment() { return department; }
+    public String getEmployeeCode() { return employeeCode; }
+    public MembershipStatus getMembershipStatus() { return membershipStatus; }
+    public Instant getJoinedAt() { return joinedAt; }
+    public Instant getLeftAt() { return leftAt; }
     @Override
-    public boolean equals(Object o){
-        if(this == o) return true;
-        if(!(o instanceof OrganizationMembership other)) return false;
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof OrganizationMembership other)) return false;
         return id != null && id.equals(other.id);
     }
-
     @Override
-    public int hashCode() {return getClass().hashCode();}
+    public int hashCode() { return getClass().hashCode(); }
 }
