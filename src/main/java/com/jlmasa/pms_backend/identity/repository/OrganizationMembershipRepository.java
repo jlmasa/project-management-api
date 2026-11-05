@@ -10,7 +10,7 @@ import org.springframework.data.repository.query.Param;
 import java.util.Optional;
 import java.util.UUID;
 
-public interface OrganizationMembershipRepository extends JpaRepository<OrganizationMembershipRepository, UUID> {
+public interface OrganizationMembershipRepository extends JpaRepository<OrganizationMembership, UUID> {
 
     @Query("""
         select m from OrganizationMembership m

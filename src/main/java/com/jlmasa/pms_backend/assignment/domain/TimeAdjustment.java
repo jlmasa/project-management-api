@@ -1,4 +1,4 @@
-package com.jlmasa.pms_backend.assignment.entity;
+package com.jlmasa.pms_backend.assignment.domain;
 
 import jakarta.persistence.*;
 import org.hibernate.annotations.UuidGenerator;

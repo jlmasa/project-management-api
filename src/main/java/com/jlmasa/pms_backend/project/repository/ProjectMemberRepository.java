@@ -1,4 +1,4 @@
-package com.jlmasa.pms_backend.identity.repository;
+package com.jlmasa.pms_backend.project.repository;
 
 import com.jlmasa.pms_backend.project.domain.ProjectMember;
 import com.jlmasa.pms_backend.project.domain.ProjectMemberId;
@@ -15,7 +15,7 @@ public interface ProjectMemberRepository extends JpaRepository<ProjectMember, Pr
 
     @Query("""
     select pm.projectRole from ProjectMember pm
-    where pm.project.id =:projectId and pm.organizationMembershipId =:membershipId and pm.removedAt is null
+    where pm.project.id =:projectId and pm.id.organizationMembershipId =:membershipId and pm.removedAt is null
 """)
     Optional<ProjectRole> findActiveRole(@Param("projectId") UUID projectId, @Param("membershipID") UUID membershipId);
 

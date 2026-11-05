@@ -1,4 +1,4 @@
-package com.jlmasa.pms_backend.identity.repository;
+package com.jlmasa.pms_backend.project.repository;
 
 import com.jlmasa.pms_backend.project.domain.Project;
 
@@ -17,7 +17,7 @@ public interface ProjectRepository extends JpaRepository<Project, UUID> {
         where p.organizationId = :organizationId
         and exists (
         select 1 from ProjectMember pm
-        where pm.project.id = p.id and pm.organizationMembershipId = :membershipId and pm.removedAt is null
+        where pm.project.id = p.id and pm.id.organizationMembershipId = :membershipId and pm.removedAt is null
         )
         """)
     Page<Project> findVisibleToMembership(@Param("organizationId") UUID organizationId,
