@@ -25,8 +25,8 @@ public class OrganizationMembership {
     @JoinColumn(name = "user_id", nullable = false)
     private UserAccount user;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "department_id")
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "department_id", nullable = false)
     private Department department;
 
     @Column(name = "employee_code")
@@ -43,7 +43,7 @@ public class OrganizationMembership {
     public OrganizationMembership(Organization organization, UserAccount user, Department department, Instant now){
         this.organization = Objects.requireNonNull(organization, "organization");
         this.user = Objects.requireNonNull(user, "user");
-        this.department = department;
+        this.department = Objects.requireNonNull(department, "department");
         this.membershipStatus = MembershipStatus.ACTIVE;
         this.joinedAt = now;
     }
@@ -59,7 +59,7 @@ public class OrganizationMembership {
         this.membershipStatus = MembershipStatus.LEFT;
         this.leftAt = now;
     }
-    public void changeDepartment(Department newDepartment) { this.department = newDepartment; }
+    public void changeDepartment(Department newDepartment) { this.department = Objects.requireNonNull(newDepartment, "department"); }
     public boolean isActive() { return membershipStatus == MembershipStatus.ACTIVE; }
     public UUID getId() { return id; }
     public Organization getOrganization() { return organization; }

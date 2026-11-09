@@ -10,6 +10,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.time.Clock;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -29,7 +30,8 @@ public class MembershipService {
         if(existing.isPresent()){
             throw new IllegalStateException("This user already has a membership in this organization");
         }
-        if(department != null && !department.getOrganization().getId().equals(organization.getId())){
+        Objects.requireNonNull(department, "A membership requires a department.");
+        if(!department.getOrganization().getId().equals(organization.getId())){
             throw new IllegalArgumentException("That department does not belong to this organization.");
         }
         OrganizationMembership membership = new OrganizationMembership(organization, user, department,clock.instant());
@@ -38,11 +40,11 @@ public class MembershipService {
 
     @Transactional
     public void changeDepartment(OrganizationMembership membership, Department newDepartment){
-       if(newDepartment != null &&
-       !newDepartment.getOrganization().getId().equals(membership.getOrganization().getId())){
-           throw new IllegalArgumentException("That department does not belong to this membership's organization.");
-       }
-       membership.changeDepartment(newDepartment);
+        Objects.requireNonNull(newDepartment, "A membership requires a department.");
+        if(!newDepartment.getOrganization().getId().equals(membership.getOrganization().getId())){
+            throw new IllegalArgumentException("That department does not belong to this membership's organization.");
+        }
+        membership.changeDepartment(newDepartment);
     }
 
     @Transactional

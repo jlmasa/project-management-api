@@ -18,5 +18,5 @@ public interface MembershipRoleRepository extends JpaRepository<MembershipRole, 
         join Permission p on p.id = rp.permission.id
         where mr.membership.id = :membershipId
 """)
-    List<String> findPermissionCodesForMembership(@Param("membershipID") UUID membershipId);
+    List<String> findPermissionCodesForMembership(@Param("membershipId") UUID membershipId);
 }

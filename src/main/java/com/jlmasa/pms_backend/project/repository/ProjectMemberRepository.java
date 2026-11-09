@@ -17,7 +17,7 @@ public interface ProjectMemberRepository extends JpaRepository<ProjectMember, Pr
     select pm.projectRole from ProjectMember pm
     where pm.project.id =:projectId and pm.id.organizationMembershipId =:membershipId and pm.removedAt is null
 """)
-    Optional<ProjectRole> findActiveRole(@Param("projectId") UUID projectId, @Param("membershipID") UUID membershipId);
+    Optional<ProjectRole> findActiveRole(@Param("projectId") UUID projectId, @Param("membershipId") UUID membershipId);
 
     List<ProjectMember> findByProjectIdAndRemovedAtIsNull(UUID projectId);
 }

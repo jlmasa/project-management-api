@@ -17,11 +17,10 @@ public interface OrganizationMembershipRepository extends JpaRepository<Organiza
         where m.user.id = :userId and m.organization.id = :organizationId and m.membershipStatus = 'ACTIVE'
 """)
     Optional<OrganizationMembership> findActiveByUserAndOrganization(
-            @Param("userID") UUID userId, @Param("organizationId") UUID organizationId
+            @Param("userId") UUID userId, @Param("organizationId") UUID organizationId
     );
 
     Page<OrganizationMembership> findByOrganizationId(UUID organizationId, Pageable pageable);
 
-    Optional<OrganizationMembership> findByIdAndOrganization(UUID id, UUID organizationId);
+    Optional<OrganizationMembership> findByIdAndOrganizationId(UUID id, UUID organizationId);
 }
-
