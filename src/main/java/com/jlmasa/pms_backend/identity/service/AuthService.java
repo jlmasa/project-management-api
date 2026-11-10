@@ -1,11 +1,11 @@
 package com.jlmasa.pms_backend.identity.service;
 
+import com.jlmasa.pms_backend.audit.repository.AuditLogRepository;
 import com.jlmasa.pms_backend.identity.domain.MembershipStatus;
 import com.jlmasa.pms_backend.identity.domain.OrganizationMembership;
 import com.jlmasa.pms_backend.identity.domain.UserAccount;
 import com.jlmasa.pms_backend.identity.dto.LoginResponse;
 import com.jlmasa.pms_backend.identity.dto.MembershipSummary;
-import com.jlmasa.pms_backend.identity.repository.AuditLogRepository;
 import com.jlmasa.pms_backend.identity.repository.OrganizationMembershipRepository;
 import com.jlmasa.pms_backend.identity.repository.UserAccountRepository;
 import com.jlmasa.pms_backend.notifications.domain.AuditLog;

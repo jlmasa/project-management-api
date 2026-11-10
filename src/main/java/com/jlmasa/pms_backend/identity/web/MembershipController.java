@@ -1,8 +1,10 @@
 package com.jlmasa.pms_backend.identity.web;
 
+import com.jlmasa.pms_backend.identity.dto.AssignRoleRequest;
 import com.jlmasa.pms_backend.identity.dto.CreateMembershipRequest;
 import com.jlmasa.pms_backend.identity.service.AccountService;
 import com.jlmasa.pms_backend.identity.service.MembershipService;
+import com.jlmasa.pms_backend.identity.service.RoleAssignmentService;
 import com.jlmasa.pms_backend.security.PmsPrincipal;
 import com.jlmasa.pms_backend.security.authz.PermissionService;
 import jakarta.validation.Valid;

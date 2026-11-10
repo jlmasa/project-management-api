@@ -1,5 +1,6 @@
 package com.jlmasa.pms_backend.identity.bootstrap;
 
+import com.jlmasa.pms_backend.audit.repository.AuditLogRepository;
 import com.jlmasa.pms_backend.identity.domain.Department;
 import com.jlmasa.pms_backend.identity.domain.Organization;
 import com.jlmasa.pms_backend.identity.domain.OrganizationMembership;

@@ -1,0 +1,16 @@
+spring:
+  flyway:
+    enabled: true
+  jpa:
+    hibernate:
+      ddl-auto: validate
+
+app:
+  jwt:
+    secret: "test-only-secret-must-still-be-at-least-256-bits-long-xxxx"
+
+pms:
+  bootstrap:
+    org-name: Quadstruct
+    admin-email: admin@quadstruct.test
+    admin-password: a-long-enough-password

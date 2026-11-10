@@ -2,6 +2,7 @@ package com.jlmasa.pms_backend.identity.web;
 
 import com.jlmasa.pms_backend.identity.dto.CreateDepartmentRequest;
 import com.jlmasa.pms_backend.identity.dto.DepartmentResponse;
+import com.jlmasa.pms_backend.identity.service.DepartmentService;
 import com.jlmasa.pms_backend.security.PmsPrincipal;
 import com.jlmasa.pms_backend.security.authz.PermissionService;
 import jakarta.validation.Valid;

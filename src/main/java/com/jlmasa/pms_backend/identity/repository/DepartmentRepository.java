@@ -9,4 +9,5 @@ import java.util.UUID;
 public interface DepartmentRepository extends JpaRepository<Department, UUID> {
 
     List<Department> findByOrganizationIdOrderByNameAsc(UUID organizationId);
+    boolean existsByOrganizationIdAndCode(UUID organizationId, String code);
 }
