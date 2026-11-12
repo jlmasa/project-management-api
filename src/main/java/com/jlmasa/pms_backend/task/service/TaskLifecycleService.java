@@ -1,7 +1,9 @@
 package com.jlmasa.pms_backend.task.service;
 
 import com.jlmasa.pms_backend.assignment.domain.AssignmentEndReason;
+import com.jlmasa.pms_backend.assignment.domain.SessionEndReason;
 import com.jlmasa.pms_backend.assignment.repository.TaskAssignmentRepository;
+import com.jlmasa.pms_backend.assignment.service.WorkSessionService;
 import com.jlmasa.pms_backend.audit.repository.ActivityLogRepository;
 import com.jlmasa.pms_backend.audit.repository.AuditLogRepository;
 import com.jlmasa.pms_backend.notifications.domain.ActivityLog;
@@ -27,14 +29,16 @@ public class TaskLifecycleService {
     private final ActivityLogRepository activityLogRepository;
     private final AuditLogRepository auditLogRepository;
     private final Clock clock;
+    private final WorkSessionService workSessionService;
 
     public TaskLifecycleService(TaskRepository taskRepository, TaskAssignmentRepository taskAssignmentRepository, ActivityLogRepository activityLogRepository,
-                                AuditLogRepository auditLogRepository, Clock clock){
+                                AuditLogRepository auditLogRepository, Clock clock, WorkSessionService workSessionService){
         this.taskRepository = taskRepository;
         this.taskAssignmentRepository = taskAssignmentRepository;
         this.activityLogRepository = activityLogRepository;
         this.auditLogRepository = auditLogRepository;
         this.clock = clock;
+        this.workSessionService = workSessionService;
     }
 
     @Transactional
@@ -75,6 +79,8 @@ public class TaskLifecycleService {
 
     private void stopActiveWorkSessionForClosure(
             List<com.jlmasa.pms_backend.assignment.domain.TaskAssignment> assignments, UUID actorMembershipId, Instant now){
+        com.jlmasa.pms_backend.assignment.domain.SessionEndReason reason = SessionEndReason.COMPLETED;
+        workSessionService.stopAllForTask(assignments, reason, actorMembershipId, now);
     }
 
     private void closeCurrentTaskConversation(UUID taskId, Instant now){

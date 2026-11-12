@@ -31,9 +31,10 @@ public class AssignmentService {
     private final PermissionService permissionService;
     private final ActivityLogRepository activityLogRepository;
     private final Clock clock;
+    private final WorkSessionService workSessionService;
 
     public AssignmentService(TaskRepository taskRepository, TaskAssignmentRepository taskAssignmentRepository, OrganizationMembershipRepository membershipRepository, ProjectAccessService projectAccessService,
-                             PermissionService permissionService, ActivityLogRepository activityLogRepository, Clock clock){
+                             PermissionService permissionService, ActivityLogRepository activityLogRepository, Clock clock, WorkSessionService workSessionService){
         this.taskRepository = taskRepository;
         this.taskAssignmentRepository = taskAssignmentRepository;
         this.membershipRepository = membershipRepository;
@@ -41,6 +42,7 @@ public class AssignmentService {
         this.permissionService = permissionService;
         this.activityLogRepository = activityLogRepository;
         this.clock = clock;
+        this.workSessionService = workSessionService;
     }
 
     @Transactional
@@ -97,6 +99,7 @@ public class AssignmentService {
     }
 
     private void stopRunningWorkSessionForReassignment(UUID endedAssignmentId){
+        workSessionService.stopForAssignment(endedAssignmentId, null, clock.instant());
     }
 
     private void log(Task task, UUID actorMembershipId, String eventType, UUID oldAssignee, UUID newAssignee) {
