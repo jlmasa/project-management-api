@@ -108,6 +108,22 @@ public class WorkSessionService {
         return session;
     }
 
+    @Transactional
+    public void stopAllForTask(java.util.List<com.jlmasa.pms_backend.assignment.domain.TaskAssignment> assignments, com.jlmasa.pms_backend.assignment.domain.SessionEndReason reason,
+                               UUID actorMembershipId, Instant closureInstant){
+        for (var assignment: assignments){
+            workSessionRepository.findByTaskAssignmentIdAndSessionStatus(assignment.getId(),SessionStatus.ACTIVE).ifPresent(session -> {
+                session.end(actorMembershipId, reason, closureInstant);
+                log(assignment, "TIMER_AUTO_STOPPED", session.getId(), actorMembershipId);
+            });
+        }
+    }
+
+    @Transactional
+    public void stopForAssignment(UUID assignmentId, UUID actorMembershipId, Instant now){
+        workSessionRepository.findByTaskAssignmentIdAndSessionStatus(assignmentId, SessionStatus.ACTIVE).ifPresent(session -> session.end(actorMembershipId, SessionEndReason.REASSIGNED, now));
+    }
+
     public long runningTotalSeconds(UUID assignmentId){
         long ended =
                 workSessionRepository.findByTaskAssignmentIdOrderByStartedAtAsc(assignmentId).stream()
