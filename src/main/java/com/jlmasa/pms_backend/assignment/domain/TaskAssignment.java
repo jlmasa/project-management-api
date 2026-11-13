@@ -93,22 +93,19 @@ public class TaskAssignment {
 
     public boolean hasEnded() {return endedAt != null;}
 
-    public UUID getId() {return id;}
-    public UUID getTaskId() {return taskId;}
-    public UUID getAssignedToMembershipId() {return assignedToMembershipId;}
-    public UUID getAssignedByMembershipId() {return assignedByMembershipId;}
-    public AssignmentStatus getAssignmentStatus() {return assignmentStatus;}
-    public Instant getAssignedAt() {return assignedAt;}
-    public Instant getFirstStartedAt() {return firstStartedAt;}
-    public Instant getCompletedAt() {
-        return completedAt;
-    }
-    public Instant getEndedAt() {return endedAt;}
+    public UUID getId() { return id; }
+    public UUID getTaskId() { return taskId; }
+    public UUID getAssignedToMembershipId() { return assignedToMembershipId; }
+    public UUID getAssignedByMembershipId() { return assignedByMembershipId; }
+    public UUID getDepartmentIdAtAssignment() { return departmentIdAtAssignment; }
+    public AssignmentStatus getAssignmentStatus() { return assignmentStatus; }
+    public Instant getAssignedAt() { return assignedAt; }
+    public Instant getFirstStartedAt() { return firstStartedAt; }
+    public Instant getCompletedAt() { return completedAt; }
+    public Instant getEndedAt() { return endedAt; }
+    public AssignmentEndReason getEndReason() { return endReason; }
+    public Instant getCreatedAt() { return createdAt; }
 
-    public AssignmentEndReason getEndReason() {
-        return endReason;
-    }
-    public Instant getCreatedAt() {return createdAt;}
 
     @Override
     public boolean equals(Object o){
