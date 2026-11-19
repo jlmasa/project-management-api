@@ -3,6 +3,10 @@ package com.jlmasa.pms_backend.messaging.service;
 import com.jlmasa.pms_backend.messaging.domain.Conversation;
 import com.jlmasa.pms_backend.messaging.domain.Message;
 import com.jlmasa.pms_backend.messaging.dto.MessagePageResponse;
+
+import com.jlmasa.pms_backend.messaging.dto.MessageResponse;
+import com.jlmasa.pms_backend.messaging.policy.MessagingDecision;
+import com.jlmasa.pms_backend.messaging.policy.MessagingPolicy;
 import com.jlmasa.pms_backend.messaging.repository.ConversationRepository;
 import com.jlmasa.pms_backend.messaging.repository.MessageRepository;
 import com.jlmasa.pms_backend.security.PmsPrincipal;
@@ -34,7 +38,8 @@ public class MessageQueryService {
     }
 
     @Transactional(readOnly = true)
-    public MessagePageResponse history(PmsPrincipal principal, UUID conversationId, Instant beforeCreatedAt, UUID beforeId, Integer limit){
+    public MessagePageResponse history(PmsPrincipal principal, UUID conversationId,
+                                       Instant beforeCreatedAt, UUID beforeId, Integer limit){
         Conversation conversation = conversationRepository.findById(conversationId).orElseThrow();
 
         MessagingDecision decision = messagingPolicy.canRead(principal.membershipId(), conversation);
@@ -42,13 +47,14 @@ public class MessageQueryService {
             throw new AccessDeniedException(decision.reasonCode());
         }
 
-        ing pageSize = (limit == null || limit <= 0) ? DEFAULT_LIMIT : Math.min(limit,MAX_LIMIT);
+        int pageSize = (limit == null || limit <= 0) ? DEFAULT_LIMIT : Math.min(limit,MAX_LIMIT);
         Instant cursorCreatedAt = beforeCreatedAt == null ? FAR_FUTURE : beforeCreatedAt;
         UUID cursorId = beforeId == null ? MAX_UUID : beforeId;
 
         List<Message> rows = messageRepository.findPageBeforeCursor(
                 conversationId, cursorCreatedAt, cursorId, PageRequest.of(0, pageSize +1)
         );
+        boolean hasMore = rows.size() > pageSize;
         List<Message> page = hasMore ? rows.subList(0, pageSize) : rows;
         List<MessageResponse> items = page.stream().map(MessageQueryService::toResponse).toList();
 
