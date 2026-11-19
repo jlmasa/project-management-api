@@ -6,6 +6,9 @@ import com.jlmasa.pms_backend.assignment.repository.TaskAssignmentRepository;
 import com.jlmasa.pms_backend.assignment.service.WorkSessionService;
 import com.jlmasa.pms_backend.audit.repository.ActivityLogRepository;
 import com.jlmasa.pms_backend.audit.repository.AuditLogRepository;
+import com.jlmasa.pms_backend.messaging.domain.ClosureReason;
+import com.jlmasa.pms_backend.messaging.policy.MessagingPolicy;
+import com.jlmasa.pms_backend.messaging.service.ConversationLifecycleService;
 import com.jlmasa.pms_backend.notifications.domain.ActivityLog;
 import com.jlmasa.pms_backend.task.domain.Task;
 import com.jlmasa.pms_backend.task.domain.TaskStatus;
@@ -30,15 +33,19 @@ public class TaskLifecycleService {
     private final AuditLogRepository auditLogRepository;
     private final Clock clock;
     private final WorkSessionService workSessionService;
+    private final ConversationLifecycleService conversationLifecycleService;
+    private final MessagingPolicy messagingPolicy;
 
     public TaskLifecycleService(TaskRepository taskRepository, TaskAssignmentRepository taskAssignmentRepository, ActivityLogRepository activityLogRepository,
-                                AuditLogRepository auditLogRepository, Clock clock, WorkSessionService workSessionService){
+                                AuditLogRepository auditLogRepository, Clock clock, WorkSessionService workSessionService, ConversationLifecycleService conversationLifecycleService, MessagingPolicy messagingPolicy){
         this.taskRepository = taskRepository;
         this.taskAssignmentRepository = taskAssignmentRepository;
         this.activityLogRepository = activityLogRepository;
         this.auditLogRepository = auditLogRepository;
         this.clock = clock;
         this.workSessionService = workSessionService;
+        this.conversationLifecycleService = conversationLifecycleService;
+        this.messagingPolicy = messagingPolicy;
     }
 
     @Transactional
@@ -84,9 +91,12 @@ public class TaskLifecycleService {
     }
 
     private void closeCurrentTaskConversation(UUID taskId, Instant now){
+        com.jlmasa.pms_backend.messaging.domain.ClosureReason reason = ClosureReason.TASK_COMPLETED;
+        conversationLifecycleService.closeForTask(taskId, reason, null);
     }
 
     private void startNextTaskConversationCycle(UUID taskId){
+        conversationLifecycleService.startNextCycle(taskId, null,  null, messagingPolicy.authorizedSet(taskId));
     }
 
     private void registerAfterCommitNotification(UUID taskId, TaskStatus closingStatus){
