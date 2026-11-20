@@ -9,7 +9,7 @@ import com.jlmasa.pms_backend.identity.domain.UserAccount;
 import com.jlmasa.pms_backend.identity.repository.*;
 import com.jlmasa.pms_backend.identity.service.AccountService;
 import com.jlmasa.pms_backend.identity.service.MembershipService;
-import com.jlmasa.pms_backend.notifications.domain.AuditLog;
+import com.jlmasa.pms_backend.notification.domain.AuditLog;
 import jakarta.transaction.Transactional;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -18,7 +18,6 @@ import org.springframework.stereotype.Component;
 
 import java.time.Clock;
 import java.time.Instant;
-import java.util.Locale;
 
 @Component
 @EnableConfigurationProperties(BootstrapProperties.class)

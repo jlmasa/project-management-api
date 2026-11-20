@@ -1,4 +1,4 @@
-package com.jlmasa.pms_backend.notifications.domain;
+package com.jlmasa.pms_backend.notification.domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

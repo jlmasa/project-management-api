@@ -7,7 +7,7 @@ import com.jlmasa.pms_backend.files.storage.FileStorage;
 import com.jlmasa.pms_backend.messaging.policy.MessagingDecision;
 import com.jlmasa.pms_backend.messaging.policy.MessagingPolicy;
 import com.jlmasa.pms_backend.messaging.repository.MessageAttachmentRepository;
-import com.jlmasa.pms_backend.notifications.domain.AuditLog;
+import com.jlmasa.pms_backend.notification.domain.AuditLog;
 import com.jlmasa.pms_backend.security.PmsPrincipal;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

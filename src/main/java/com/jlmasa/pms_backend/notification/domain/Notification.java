@@ -1,4 +1,4 @@
-package com.jlmasa.pms_backend.notifications.domain;
+package com.jlmasa.pms_backend.notification.domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -58,39 +58,37 @@ public class Notification {
     @Column(name = "dismissed_at")
     private Instant dismissedAt;
 
-    protected Notification() {}
-
-    public Notification(UUID organizationId, UUID recipientMembershipId, UUID actorMembershipId, String notificationType, String title, Instant now){
-        this.organizationId = Objects.requireNonNull(organizationId,"organizationId");
+    protected Notification() {
+    }
+    public Notification(UUID organizationId, UUID recipientMembershipId, UUID actorMembershipId,
+                        String notificationType, String title, Instant now) {
+        this.organizationId = Objects.requireNonNull(organizationId, "organizationId");
         this.recipientMembershipId = Objects.requireNonNull(recipientMembershipId, "recipientMembershipId");
         this.actorMembershipId = actorMembershipId;
         this.notificationType = Objects.requireNonNull(notificationType, "notificationType");
         this.title = Objects.requireNonNull(title, "title");
         this.createdAt = now;
     }
-
-    public void markRead(Instant now) {this.readAt = now;}
-    public void dismiss(Instant now) {this.dismissedAt = now;}
-    public boolean isUnread() {return readAt == null;}
-
-    public UUID getId() {return id;}
-    public UUID getOrganizationId() {return organizationId;}
-    public UUID getRecipientMembershipId() {return recipientMembershipId;}
-    public UUID getActorMembershipId() {return actorMembershipId;}
-    public String getNotificationType() {return notificationType;}
-    public String getTitle() {return title;}
-    public String getBody() {return body;}
-    public Instant getCreatedAt() {return createdAt;}
-    public Instant getReadAt() {return readAt;}
-    public Instant getDismissedAt() {return dismissedAt;}
-
+    public void markRead(Instant now) { this.readAt = now; }
+    public void dismiss(Instant now) { this.dismissedAt = now; }
+    public boolean isUnread() { return readAt == null; }
+    public UUID getId() { return id; }
+    public UUID getOrganizationId() { return organizationId; }
+    public UUID getRecipientMembershipId() { return recipientMembershipId; }
+    public UUID getActorMembershipId() { return actorMembershipId; }
+    public String getNotificationType() { return notificationType; }
+    public String getTitle() { return title; }
+    public String getBody() { return body; }
+    public Instant getCreatedAt() { return createdAt; }
+    public Instant getReadAt() { return readAt; }
+    public Instant getDismissedAt() { return dismissedAt; }
     @Override
-    public boolean equals(Object o){
-        if (this ==o) return true;
-        if(!(o instanceof Notification other)) return false;
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Notification other)) return false;
         return id != null && id.equals(other.id);
     }
-
     @Override
-    public int hashCode() {return getClass().hashCode();}
+    public int hashCode() { return getClass().hashCode(); }
 }
+

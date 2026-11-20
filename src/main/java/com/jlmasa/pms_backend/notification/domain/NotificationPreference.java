@@ -1,4 +1,4 @@
-package com.jlmasa.pms_backend.notifications.domain;
+package com.jlmasa.pms_backend.notification.domain;
 
 import jakarta.persistence.*;
 import org.hibernate.annotations.UuidGenerator;

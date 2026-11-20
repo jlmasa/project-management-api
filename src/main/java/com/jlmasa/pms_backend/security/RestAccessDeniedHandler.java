@@ -2,7 +2,7 @@ package com.jlmasa.pms_backend.security;
 
 import com.jlmasa.pms_backend.audit.repository.AuditLogRepository;
 import com.jlmasa.pms_backend.common.ApiError;
-import com.jlmasa.pms_backend.notifications.domain.AuditLog;
+import com.jlmasa.pms_backend.notification.domain.AuditLog;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.access.AccessDeniedException;

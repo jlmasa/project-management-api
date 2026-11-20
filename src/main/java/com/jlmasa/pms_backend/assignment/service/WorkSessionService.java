@@ -7,7 +7,7 @@ import com.jlmasa.pms_backend.assignment.domain.WorkSession;
 import com.jlmasa.pms_backend.assignment.repository.TaskAssignmentRepository;
 import com.jlmasa.pms_backend.assignment.repository.WorkSessionRepository;
 import com.jlmasa.pms_backend.audit.repository.ActivityLogRepository;
-import com.jlmasa.pms_backend.notifications.domain.ActivityLog;
+import com.jlmasa.pms_backend.notification.domain.ActivityLog;
 import com.jlmasa.pms_backend.security.PmsPrincipal;
 import com.jlmasa.pms_backend.security.authz.ProjectAccessService;
 import com.jlmasa.pms_backend.task.domain.Task;

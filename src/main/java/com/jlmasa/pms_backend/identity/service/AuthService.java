@@ -8,7 +8,7 @@ import com.jlmasa.pms_backend.identity.dto.LoginResponse;
 import com.jlmasa.pms_backend.identity.dto.MembershipSummary;
 import com.jlmasa.pms_backend.identity.repository.OrganizationMembershipRepository;
 import com.jlmasa.pms_backend.identity.repository.UserAccountRepository;
-import com.jlmasa.pms_backend.notifications.domain.AuditLog;
+import com.jlmasa.pms_backend.notification.domain.AuditLog;
 import com.jlmasa.pms_backend.security.JwtService;
 import jakarta.transaction.Transactional;
 import org.springframework.security.authentication.BadCredentialsException;

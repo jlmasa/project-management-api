@@ -7,7 +7,7 @@ import com.jlmasa.pms_backend.messaging.domain.ConversationStatus;
 import com.jlmasa.pms_backend.messaging.domain.Message;
 import com.jlmasa.pms_backend.messaging.repository.ConversationRepository;
 import com.jlmasa.pms_backend.messaging.repository.MessageRepository;
-import com.jlmasa.pms_backend.notifications.domain.ActivityLog;
+import com.jlmasa.pms_backend.notification.domain.ActivityLog;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

@@ -1,6 +1,6 @@
 package com.jlmasa.pms_backend.audit.repository;
 
-import com.jlmasa.pms_backend.notifications.domain.AuditLog;
+import com.jlmasa.pms_backend.notification.domain.AuditLog;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.UUID;

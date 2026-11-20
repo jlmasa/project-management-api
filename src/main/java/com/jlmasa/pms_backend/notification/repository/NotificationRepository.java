@@ -1,6 +1,6 @@
-package com.jlmasa.pms_backend.notifications.repository;
+package com.jlmasa.pms_backend.notification.repository;
 
-import com.jlmasa.pms_backend.notifications.domain.Notification;
+import com.jlmasa.pms_backend.notification.domain.Notification;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

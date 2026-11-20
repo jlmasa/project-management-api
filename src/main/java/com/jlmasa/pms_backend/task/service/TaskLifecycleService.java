@@ -9,7 +9,7 @@ import com.jlmasa.pms_backend.audit.repository.AuditLogRepository;
 import com.jlmasa.pms_backend.messaging.domain.ClosureReason;
 import com.jlmasa.pms_backend.messaging.policy.MessagingPolicy;
 import com.jlmasa.pms_backend.messaging.service.ConversationLifecycleService;
-import com.jlmasa.pms_backend.notifications.domain.ActivityLog;
+import com.jlmasa.pms_backend.notification.domain.ActivityLog;
 import com.jlmasa.pms_backend.task.domain.Task;
 import com.jlmasa.pms_backend.task.domain.TaskStatus;
 import com.jlmasa.pms_backend.task.repository.TaskRepository;

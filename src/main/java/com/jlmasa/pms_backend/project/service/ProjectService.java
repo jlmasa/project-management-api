@@ -1,7 +1,7 @@
 package com.jlmasa.pms_backend.project.service;
 
 import com.jlmasa.pms_backend.audit.repository.ActivityLogRepository;
-import com.jlmasa.pms_backend.notifications.domain.ActivityLog;
+import com.jlmasa.pms_backend.notification.domain.ActivityLog;
 import com.jlmasa.pms_backend.project.domain.Project;
 import com.jlmasa.pms_backend.project.domain.ProjectMember;
 import com.jlmasa.pms_backend.project.domain.ProjectRole;
